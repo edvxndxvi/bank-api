@@ -121,7 +121,7 @@ public class AccountController {
         log.info("Transferindo via PIX da conta {} para {}", dto.contaOrigem(), dto.contaDestino());
         try {
             accountService.transfer(dto.contaOrigem(), dto.contaDestino(), dto.valor());
-            return ResponseEntity.ok("Transferência realizada com sucesso.");
+            return ResponseEntity.ok("Pix realizada com sucesso.");
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(404).body("Uma das contas não foi encontrada.");
         } catch (IllegalArgumentException e) {
