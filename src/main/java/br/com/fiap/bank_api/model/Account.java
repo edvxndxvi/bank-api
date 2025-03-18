@@ -14,9 +14,9 @@ public class Account {
     private AccountStatus active;
     private AccountType type;
 
-    // Constructor
-    public Account() {}
-    
+    // Constructor  
+    public Account() {} 
+      
     public Account(Long id,Long number, int agency, String holder, String cpf, LocalDate openingDate, double openingBalance, AccountStatus active, AccountType type) {
         this.id = id;
         this.number = number;
@@ -25,7 +25,7 @@ public class Account {
         setCpf(cpf);
         setOpeningDate(openingDate);
         setOpeningBalance(openingBalance);
-        this.active = AccountStatus.S;
+        this.active = AccountStatus.S;                                                                                                                                                                                                                                                            
         setType(type);
     }
 
@@ -45,7 +45,7 @@ public class Account {
     public Long getNumber() {
         return number;
     }
-
+ 
     public void setNumber(Long number) {
         this.number = number;
     }
@@ -106,7 +106,7 @@ public class Account {
         }
     }
 
-    public AccountStatus isActive() {
+    public AccountStatus getActive() {
         return active;
     }
 
