@@ -5,29 +5,28 @@ import java.util.Random;
 
 public class Account {
     private Long id;
-    private Long numero;
-    private int agencia;
-    private String titular;
+    private Long number;
+    private int agency;
+    private String holder;
     private String cpf;
-    private LocalDate dataAbertura;
-    private double saldoInicial;
-    private AccountStatus ativo;
-    private AccountType tipo;
+    private LocalDate openingDate;
+    private double openingBalance;
+    private AccountStatus active;
+    private AccountType type;
 
     // Constructor
-    public Account(Long id, Long numero, int agencia, String titular, String cpf, LocalDate dataAbertura, double saldoInicial, AccountStatus ativo, AccountType tipo) {
+    public Account() {}
+    
+    public Account(Long id,Long number, int agency, String holder, String cpf, LocalDate openingDate, double openingBalance, AccountStatus active, AccountType type) {
         this.id = id;
-        this.numero = numero;
-        this.agencia = agencia;
-        setTitular(titular);
+        this.number = number;
+        this.agency = agency;
+        setHolder(holder);
         setCpf(cpf);
-        setDataAbertura(dataAbertura);
-        setSaldoInicial(saldoInicial);
-        this.ativo = AccountStatus.ATIVA;
-        setTipo(tipo);
-    }
-
-    public Account() {
+        setOpeningDate(openingDate);
+        setOpeningBalance(openingBalance);
+        this.active = AccountStatus.S;
+        setType(type);
     }
 
     // Getters And Setters
@@ -42,32 +41,32 @@ public class Account {
             this.id = id;
         }
     }
-
-    public Long getNumero() {
-        return numero;
+    
+    public Long getNumber() {
+        return number;
     }
 
-    public void setNumero(Long numero) {
-        this.numero = numero;
+    public void setNumber(Long number) {
+        this.number = number;
     }
 
-    public int getAgencia() {
-        return agencia;
+    public int getAgency() {
+        return agency;
     }
 
-    public void setAgencia(int agencia) {
-        this.agencia = agencia;
+    public void setAgency(int agency) {
+        this.agency = agency;
     }
 
-    public String getTitular() {
-        return titular;
+    public String getHolder() {
+        return holder;
     }
 
-    public void setTitular(String titular) {
-        if (titular == null || titular.isEmpty()) {
+    public void setHolder(String holder) {
+        if (holder == null || holder.isEmpty()) {
             throw new IllegalArgumentException("Titular não pode ser nulo ou vazio");
         } else {
-            this.titular = titular;
+            this.holder = holder;
         }
     }
 
@@ -83,64 +82,61 @@ public class Account {
         }
     }
 
-    public LocalDate getDataAbertura() {
-        return dataAbertura;
+    public LocalDate getOpeningDate() {
+        return openingDate;
     }
 
-    public void setDataAbertura(LocalDate dataAbertura) {
-        if (dataAbertura == null || dataAbertura.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("Data de abertura não pode ser nula");
+    public void setOpeningDate(LocalDate openingDate) {
+        if (openingDate == null || openingDate.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("Data de abertura não pode ser nula nem posterior à data atual.");
         } else {
-            this.dataAbertura = dataAbertura;
+            this.openingDate = openingDate;
         }
     }
 
-    public double getSaldoInicial() {
-        return saldoInicial;
+    public double getOpeningBalance() {
+        return openingBalance;
     }
 
-    public void setSaldoInicial(double saldoInicial) {
-        if (saldoInicial < 0) {
+    public void setOpeningBalance(double openingBalance) {
+        if (openingBalance < 0) {
             throw new IllegalArgumentException("Saldo não pode ser negativo");
         } else {
-            this.saldoInicial = saldoInicial;
+            this.openingBalance = openingBalance;
         }
     }
 
-    public AccountStatus isAtivo() {
-        return ativo;
+    public AccountStatus isActive() {
+        return active;
     }
 
-    public void setAtivo(AccountStatus ativo) {
-        this.ativo = ativo;
+    public void setActive(AccountStatus active) {
+        this.active = active;
     }
 
-    public AccountType getTipo() {
-        return tipo;
+    public AccountType getType() {
+        return type;
     }
 
-    public void setTipo(AccountType tipo) {
-        if (tipo == null) {
-            throw new IllegalArgumentException("Tipo de conta não pode ser nulo");
-        } else {
-            this.tipo = tipo;
-        }
+    public void setType(AccountType type) {
+        this.type = type;
     }
 
     // Methods
 
     public void deposit(double value) {
-        if (value <= 0)
+        if (value <= 0){
             throw new IllegalArgumentException("Valor do depósito deve ser maior que zero");
-        saldoInicial += value;
+        }
+        openingBalance += value;
     }
 
     public void withdraw(double value) {
         if (value <= 0)
             throw new IllegalArgumentException("Valor do saque deve ser maior que zero");
-        if (saldoInicial < value)
+        if (openingBalance < value)
             throw new IllegalArgumentException("Saldo insuficiente");
-        saldoInicial -= value;
+        openingBalance -= value;
     }
     
 }
