@@ -11,11 +11,11 @@ public class Account {
     private String cpf;
     private LocalDate dataAbertura;
     private double saldoInicial;
-    private String ativo;
+    private AccountStatus ativo;
     private AccountType tipo;
 
     // Constructor
-    public Account(Long id, Long numero, int agencia, String titular, String cpf, LocalDate dataAbertura, double saldoInicial, String ativo, AccountType tipo) {
+    public Account(Long id, Long numero, int agencia, String titular, String cpf, LocalDate dataAbertura, double saldoInicial, AccountStatus ativo, AccountType tipo) {
         this.id = (id == null) ? Math.abs(new Random().nextLong()) : id;
         this.numero = numero;
         this.agencia = agencia;
@@ -23,7 +23,7 @@ public class Account {
         this.cpf = cpf;
         this.dataAbertura = dataAbertura;
         this.saldoInicial = saldoInicial;
-        this.ativo = ativo;
+        this.ativo = AccountStatus.ATIVA;
         this.tipo = tipo;
     }
 
@@ -87,11 +87,11 @@ public class Account {
         this.saldoInicial = saldoInicial;
     }
 
-    public String isAtivo() {
+    public AccountStatus isAtivo() {
         return ativo;
     }
 
-    public void setAtivo(String ativo) {
+    public void setAtivo(AccountStatus ativo) {
         this.ativo = ativo;
     }
 
@@ -113,7 +113,5 @@ public class Account {
             throw new IllegalArgumentException("Data de abertura não pode ser nula");
         if (saldoInicial < 0)
             throw new IllegalArgumentException("Saldo não pode ser negativo");
-        if (ativo == null || ativo.isEmpty())
-            throw new IllegalArgumentException("Ativo não pode ser nulo ou vazio");
     }
 }

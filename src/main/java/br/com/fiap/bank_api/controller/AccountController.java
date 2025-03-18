@@ -2,7 +2,6 @@ package br.com.fiap.bank_api.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale.Category;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.bank_api.model.Account;
+import br.com.fiap.bank_api.model.AccountStatus;
 
 @RestController
 @RequestMapping("/account")
@@ -52,7 +52,7 @@ public class AccountController {
         log.info("Encerrando conta " + id + " " + account);
     
         // Modificando o status da conta
-        account.setAtivo("n");  // Marca a conta como inativa
+        account.setAtivo(AccountStatus.INATIVA);  // Marca a conta como inativa
         
         return ResponseEntity.ok(account);  // Retorna a conta com status 200 OK
     }
