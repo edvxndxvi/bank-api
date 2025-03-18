@@ -16,15 +16,15 @@ public class Account {
 
     // Constructor
     public Account(Long id, Long numero, int agencia, String titular, String cpf, LocalDate dataAbertura, double saldoInicial, AccountStatus ativo, AccountType tipo) {
-        this.id = (id == null) ? Math.abs(new Random().nextLong()) : id;
+        this.id = id;
         this.numero = numero;
         this.agencia = agencia;
-        this.titular = titular;
-        this.cpf = cpf;
-        this.dataAbertura = dataAbertura;
-        this.saldoInicial = saldoInicial;
+        setTitular(titular);
+        setCpf(cpf);
+        setDataAbertura(dataAbertura);
+        setSaldoInicial(saldoInicial);
         this.ativo = AccountStatus.ATIVA;
-        this.tipo = tipo;
+        setTipo(tipo);
     }
 
     public Account() {
@@ -36,7 +36,11 @@ public class Account {
     }
 
     public void setId(Long id) {
-        this.id = id;
+        if (id == null) {
+            this.id = Math.abs(new Random().nextLong());
+        } else {
+            this.id = id;
+        }
     }
 
     public Long getNumero() {
@@ -60,7 +64,11 @@ public class Account {
     }
 
     public void setTitular(String titular) {
-        this.titular = titular;
+        if (titular == null || titular.isEmpty()) {
+            throw new IllegalArgumentException("Titular não pode ser nulo ou vazio");
+        } else {
+            this.titular = titular;
+        }
     }
 
     public String getCpf() {
@@ -68,7 +76,11 @@ public class Account {
     }
 
     public void setCpf(String cpf) {
-        this.cpf = cpf;
+        if (cpf == null || cpf.isEmpty()) {
+            throw new IllegalArgumentException("Cpf não pode ser nulo ou vazio");
+        } else {
+            this.cpf = cpf;
+        }
     }
 
     public LocalDate getDataAbertura() {
@@ -76,7 +88,11 @@ public class Account {
     }
 
     public void setDataAbertura(LocalDate dataAbertura) {
-        this.dataAbertura = dataAbertura;
+        if (dataAbertura == null || dataAbertura.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("Data de abertura não pode ser nula");
+        } else {
+            this.dataAbertura = dataAbertura;
+        }
     }
 
     public double getSaldoInicial() {
@@ -84,7 +100,11 @@ public class Account {
     }
 
     public void setSaldoInicial(double saldoInicial) {
-        this.saldoInicial = saldoInicial;
+        if (saldoInicial < 0) {
+            throw new IllegalArgumentException("Saldo não pode ser negativo");
+        } else {
+            this.saldoInicial = saldoInicial;
+        }
     }
 
     public AccountStatus isAtivo() {
@@ -100,18 +120,27 @@ public class Account {
     }
 
     public void setTipo(AccountType tipo) {
-        this.tipo = tipo;
+        if (tipo == null) {
+            throw new IllegalArgumentException("Tipo de conta não pode ser nulo");
+        } else {
+            this.tipo = tipo;
+        }
     }
 
-    // Metods
-    public void validateAccount() {
-        if (titular == null || titular.isEmpty())
-            throw new IllegalArgumentException("Titular não pode ser nulo ou vazio");
-        if (cpf == null || cpf.isEmpty())
-            throw new IllegalArgumentException("Cpf não pode ser nulo ou vazio");
-        if (dataAbertura == null || dataAbertura.isAfter(LocalDate.now()))
-            throw new IllegalArgumentException("Data de abertura não pode ser nula");
-        if (saldoInicial < 0)
-            throw new IllegalArgumentException("Saldo não pode ser negativo");
+    // Methods
+
+    public void deposit(double value) {
+        if (value <= 0)
+            throw new IllegalArgumentException("Valor do depósito deve ser maior que zero");
+        saldoInicial += value;
     }
+
+    public void withdraw(double value) {
+        if (value <= 0)
+            throw new IllegalArgumentException("Valor do saque deve ser maior que zero");
+        if (saldoInicial < value)
+            throw new IllegalArgumentException("Saldo insuficiente");
+        saldoInicial -= value;
+    }
+    
 }
